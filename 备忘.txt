@@ -1,0 +1,44 @@
+
+V1.1版本初布评审后修改已完成
+
+1）移动端地址：https://modao.cc/app/FpVgPLB3rbldpngSKu2MUI 《DEME-V1.1-移动端》 
+
+2）PC端地址：https://modao.cc/app/IlJyMCH3rblhshnpTxOTV7 《DEME-V1.1-PC端》 
+
+3）管理后台地址：https://modao.cc/app/qGIXHXp1rblhteDwlJYrSn 《DEME-V1.1-管理后台》 
+
+4）流程图地址：https://modao.cc/flow/2Wy1PVuirblqukkkIQhkzw
+
+
+
+注：修改主要围绕管理后台进行修改，目前逻辑较绕的地方为库存发放部分逻辑，预计技术初布评审时间为周一上午10.3089%88%EF%BC%89?node-id=1510%3A12981
+
+显示tcpwait：netstat -n | awk '/^tcp/ {++state[$NF]} END {for(key in state) print key,"\t",state[key]}'   或者ss - s
+
+
+./mysqlreport --user exporter --password abc12345 --host 172.29.101.42 --port 3306 --socket /tmp/mysqld.sock --outfile=/tmp/mysqlreport.txt    ---生成mysqlreport
+user=exporter
+password=abc12345
+  
+EVAL "local keys = redis.call('keys', ARGV[1]) for i=1,#keys,5000 do redis.call('del', unpack(keys, i, math.min(i+4999, #keys))) end return #keys" 0 '*userId_*'   --删除redis userid_
+
+
+jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=47.108.180.26 -J-Djava.rmi.server.logCalls=true
+
+//java启动服务
+nohup java -javaagent:/root/172.29.101.43/pinpoint-agent-1.5.2/pinpoint-bootstrap-1.5.2.jar -Dpinpoint.agentId=order-service -Dpinpoint.applicationName=order-service -jar ow-order-server-8090-1.0-SNAPSHOT.jar  >> ow-order-server-8090-1.0-SNAPSHOT.log 2>&1 &
+
+ps auxw|head -1;ps auxw|sort -rn -k4|head -40     --查询内存占用前40
+
+
+qinggc@foxmail.com     569qing
+
+抓包：tcpdump -i any -nn src 172.29.101.45 -w webserver45.pcap -v
+
+redis连接：redis-cli -h 172.29.101.42 -p 6379
+
+测试服务器1 IP 47.108.168.38 密码 Deme112233
+测试服务器2 IP 47.109.44.38  密码 Deme112233
+
+cat /etc/nginx/nginx.conf   查看nginx配置
+tail -100f /var/log/nginx/access.log
