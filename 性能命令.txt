@@ -1,3 +1,62 @@
-
+################### linux
 # 统计tcp各种连接状态的数量
 netstat -an | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+netstat -nat|grep ESTABLISHED|wc -l  #查看并发连接数
+显示tcpwait：netstat -n | awk '/^tcp/ {++state[$NF]} END {for(key in state) print key,"\t",state[key]}'   或者ss - s
+
+ps auxw|head -1;ps auxw|sort -rn -k4|head -40     --查询内存占用前40
+
+#抓包
+tcpdump -i any -nn src 172.29.101.45 -w webserver45.pcap -v
+
+
+
+################### java
+##### arthas
+curl -O https://arthas.aliyun.com/arthas-boot.jar
+java -jar arthas-boot.jar
+# trace命令
+trace studio.deme.ow.controller.OrderController saveOrder
+# 16进制编码
+printf "%x\n" 21742
+# 查看线程对应的堆栈信息
+jstack 12386|grep -A 30 30c6   # 显示30行
+jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=47.108.180.26 -J-Djava.rmi.server.logCalls=true
+
+# 查看gc次数
+jstat -gcutil 28820 1000        内存：jstat -gccapacity 28820 1000
+
+
+
+################### influxdb
+#导出数据
+influx_inspect export -datadir "/var/lib/influxdb/data" -waldir "/var/lib/influxdb/wal" -out "db_jmeter" -database jmeter -start 2022-06-01T15:03:01Z
+
+
+
+################### redis
+redis连接：redis-cli -h 172.29.101.42 -p 6379
+EVAL "local keys = redis.call('keys', ARGV[1]) for i=1,#keys,5000 do redis.call('del', unpack(keys, i, math.min(i+4999, #keys))) end return #keys" 0 '*userId_*'   --删除redis userid_
+
+
+
+################### mysql
+./mysqlreport --user exporter --password abc12345 --host 172.29.101.42 --port 3306 --socket /tmp/mysqld.sock --outfile=/tmp/mysqlreport.txt    ---生成mysqlreport
+user=exporter
+
+
+
+
+################### nginx
+cat /etc/nginx/nginx.conf   查看nginx配置
+tail -100f /var/log/nginx/access.log
+cat access.log|awk '{count[$9]++}END{for(status in count){print status,count[status]/NR*100"%"}}'  #比例统计
+cat access.log|awk '{count[$4]++}END{ for(time in count){print time,count[time]} }'  #每秒 请求并发
+cat access.log |awk '{print $4}'|awk -F':' '{print $1":"$2":"$3}'|awk '{count[$1]++}END{for(time in count){print time,count[time]}}' #每分钟 请求并发
+-- ----------------------------------------------------统计nginx的响应状态码
+cat access.log|awk '{count[$9]++}END{for(ip in count){print ip,count[ip]}}'    #各个状态码数量
+cat access.log|awk '{count[$9]++}END{for(status in count){print status,count[status]/NR*100"%"}}'  #比例统计
+cat access.log|awk '{count[$9]++}END{for(status in count){print status"\t"int(count[status]/NR*100)"%"}}' #比例统计保留整数
+cat access.log|awk '$9~/^2/' #状态码，正常请求
+cat access.log|awk '$9~/^5/' #状态码，处理异常
+cat access.log | awk '{count[$1]++}END{for(ip in count){print ip"\t"count[ip]}}'|sort -rnk 2 #访问IP数倒叙
