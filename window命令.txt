@@ -1,0 +1,11 @@
+# 查看所有端口号
+netstat -ano
+
+# 查询指定的端口占用，最后一列为pid
+netstat -aon|findstr "2080"
+
+# 查询PID对应的进行进程，第一列为进程名
+tasklist|findstr "2016"
+
+# 杀掉指定程序名
+taskkill /f /t /im 程序名.exe

@@ -17,6 +17,8 @@ curl -O https://arthas.aliyun.com/arthas-boot.jar
 java -jar arthas-boot.jar
 # trace命令
 trace studio.deme.ow.controller.OrderController saveOrder
+# 查看占用CPU较高进线程
+ps H -eo pid,tid,pcpu | sort -n -k 3 | tail -10
 # 16进制编码
 printf "%x\n" 21742
 # 查看线程对应的堆栈信息
@@ -52,7 +54,9 @@ cat /etc/nginx/nginx.conf   查看nginx配置
 tail -100f /var/log/nginx/access.log
 cat access.log|awk '{count[$9]++}END{for(status in count){print status,count[status]/NR*100"%"}}'  #比例统计
 cat access.log|awk '{count[$4]++}END{ for(time in count){print time,count[time]} }'  #每秒 请求并发
-cat access.log |awk '{print $4}'|awk -F':' '{print $1":"$2":"$3}'|awk '{count[$1]++}END{for(time in count){print time,count[time]}}' #每分钟 请求并发
+cat access.log |awk '{print $4}'|awk -F':' '{print $1":"$2":"$3}'|awk '{count[$1]++}END{for(time in count){print time,count[time]}}' #每分钟 请求并发   cat access.log|awk '{print $4}' |cut -c 2-18|uniq -c
+cat access.log|awk '{print $4}' |cut -c 2-15|uniq -c    #每小时请求
+cat access.log|awk '$9~/^5/'|awk '{print $4}'|cut -c 2-15|uniq -c   #每小时的500请求数
 -- ----------------------------------------------------统计nginx的响应状态码
 cat access.log|awk '{count[$9]++}END{for(ip in count){print ip,count[ip]}}'    #各个状态码数量
 cat access.log|awk '{count[$9]++}END{for(status in count){print status,count[status]/NR*100"%"}}'  #比例统计
@@ -60,3 +64,7 @@ cat access.log|awk '{count[$9]++}END{for(status in count){print status"\t"int(co
 cat access.log|awk '$9~/^2/' #状态码，正常请求
 cat access.log|awk '$9~/^5/' #状态码，处理异常
 cat access.log | awk '{count[$1]++}END{for(ip in count){print ip"\t"count[ip]}}'|sort -rnk 2 #访问IP数倒叙
+
+cat api.demeworld.cn.log |awk '{print $7,$1,$4}'|awk '$1 ~ /certification/'|awk '$3 ~ /18\/Jul/'|awk '{print $2}' |sort|uniq -c|sort -n   #统计某个请求的IP访问数
+cat api.demeworld.cn.log |awk '{print $7,$1,$4}'|awk '$1 ~ /certification/'|awk '$3 ~ /19\/Jul/'|awk '{print $2}' |sort|uniq -c|sort -n|awk '$1 >1000'
+
