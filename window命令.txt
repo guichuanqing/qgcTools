@@ -9,3 +9,11 @@ tasklist|findstr "2016"
 
 # 杀掉指定程序名
 taskkill /f /t /im 程序名.exe
+
+
+# docker
+docker stop $(docker ps -aq)
+
+docker container prune
+
+docker rmi $(docker images -aq)
