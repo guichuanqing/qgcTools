@@ -1,0 +1,127 @@
+import json
+
+import requests
+import os
+import time
+import re
+import sys
+
+class Image():
+    url = 'https://image.baidu.com/search/acjson'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.9 Safari/537.36'
+    }
+    varlist = []
+    dir = 'E:\图片\images'
+    params = {}
+    def __init__(self):
+        global page_num, keywords, timestamp
+        page_num = int(input('请输入要抓取的页数:\n'))
+        keywords = input('请输入关键字:\n')
+        timestamp = int(round(time.time() * 1000))
+        if self.catch_page():
+            self.writeData()
+        else:
+            print('抓取页面失败')
+
+    def catch_page(self):
+        headers = {
+            "Accept": "text/plain, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Connection": "keep-alive",
+            "Host": "image.baidu.com",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        }
+        for i in range(0,page_num * 30,30):
+            self.params = {
+                'tn': 'resultjson_com',
+                'logid': '10329884578480467435',
+                'ipn': 'rj',
+                'ct': '201326592',
+                'is': '',
+                'fp': 'result',
+                'fr': '',
+                'word': keywords,
+                'queryWord': keywords,
+                'cl': '2',
+                'lm': '-1',
+                'ie': 'utf-8',
+                'oe': 'utf-8',
+                'adpicid': '',
+                'st': '-1',
+                'z': '',
+                'ic': '0',
+                'hd': '',
+                'latest': '',
+                'copyright': '',
+                's': '',
+                'se': '',
+                'tab': '',
+                'width': '',
+                'height': '',
+                'face': '0',
+                'istype': '2',
+                'qc': '',
+                'nc': '1',
+                'expermode': '',
+                'nojc': '',
+                'isAsync': '',
+                'pn': i,
+                'rn': '30',
+                'gsm': '1e',
+                timestamp: ''
+            }
+            res = requests.get(url = self.url,params = self.params, headers = headers)
+            res = self.deal_json_invaild(res.text)
+            res = json.loads(res)
+            for j in range(0,30):
+                self.varlist.append(res['data'][j]['thumbURL'])
+        if self.varlist != None:
+            return True
+        return False
+
+    def writeData(self):
+        # 判读是否存在文件,不存在则创建
+        if not os.path.exists(self.dir):
+            os.mkdir(self.dir)
+
+        for i in range(0,page_num * 30):
+            print(f'正在下载第{i}条数据')
+            images = requests.get(url = self.varlist[i])
+            open(f'{self.dir}\{i}.jpg','wb').write(images.content)
+
+    # 处理返回值得特殊符号
+    def deal_json_invaild(self, text):
+        if type(text) != str:
+            raise Exception("参数接受的是字符串类型")
+        # text = re.search(r"\{.*\}", text).group()
+        text = re.sub(r"\n|\t|\r|\r\n|\n\r|\x08|\\", "", text)
+        try:
+            json.loads(json.dumps(text))
+        except json.decoder.JSONDecodeError as err:
+            temp_pos = int(re.search(r"\(char (\d+)\)", str(err)).group(1))
+            temp_list = list(text)
+            while True:
+                if temp_list[temp_pos] == "\"" or "}":
+                    if temp_list[temp_pos - 1] == "{":
+                        break
+                    elif temp_list[temp_pos - 1] == (":" or "{") and temp_list[temp_pos - 2] == ("\"" or ":" or "["):
+                        break
+                    elif temp_list[temp_pos] == "|\n|\t|\r|\r\n|\n\r| ":
+                        temp_list[temp_pos] = re.sub(temp_list[temp_pos], "", temp_list[temp_pos])
+                        text = "".join(temp_list)
+                    elif temp_list[temp_pos] == "\"":
+                        temp_list[temp_pos] = re.sub(temp_list[temp_pos], "“", temp_list[temp_pos])
+                        text = "".join(temp_list)
+                    elif temp_list[temp_pos] == "}":
+                        temp_list[temp_pos - 1] = re.sub(temp_list[temp_pos], "\"", temp_list[temp_pos])
+                        text = "".join(temp_list)
+                        temp_pos -= 1
+                temp_pos -= 1
+            return deal_json_invaild(text)
+        else:
+            return text
+
+if __name__ == '__main__':
+    Image()
