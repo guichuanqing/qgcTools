@@ -1,0 +1,23 @@
+########################## mysql ######################################
+安装目录以服务方式启动和暂停
+service mysqld start
+service mysqld stop
+
+本地登录：mysql -hlocalhost -udeme3 -p 密码
+
+
+本地命令行：
+show databases;
+use deme3;
+
+
+
+以root用户启动：
+./mysqld --user=root
+
+
+
+
+
+###################### influxDB ##########################
+select sum(diskBytes) / 1024 / 1024 /1024 from _internal."monitor"."shard" where time > now() - 10s group by "database";   # 查询当前数据库的大小（GB）
