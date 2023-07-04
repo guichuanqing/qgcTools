@@ -9,7 +9,9 @@ ps auxw|head -1;ps auxw|sort -rn -k4|head -40     --查询内存占用前40
 #抓包
 tcpdump -i any -nn src 172.29.101.45 -w webserver45.pcap -v
 
-
+################curl
+# 统计当前请求的时间
+curl -w "@curl-format.txt" -o /dev/null -H "Host: test.v1.api.poppclub.cn" -H "Content-Type: application/json" -H "Accept: */*" -H "Cookie: JSESSIONID=0BC82276E80050FD24FA5640F48C6BBC" -H "locale: zh-Hans" -H "User-Agent: POPP/1.3.0 (iPhone; iOS 16.2; Scale/2.00)" -H "Accept-Language: zh-Hans;q=1" -H "token: 164C1E1A-4FE9-43DB-91A1-AD26580726EC_1675698506533408768" --data-binary "{\"uid\":\"1041\",\"clubId\":\"1639186869119938561\",\"groupList\":[{\"groupId\":\"1640280793607610370\",\"classify\":0}]}" --compressed "https://test.v1.api.poppclub.cn/im/select/pull/pullUnreadNumAndAtUnreadNum"
 
 ################### java
 ##### arthas
@@ -22,7 +24,7 @@ ps H -eo pid,tid,pcpu | sort -n -k 3 | tail -10
 # 16进制编码
 printf "%x\n" 21742
 # 查看线程对应的堆栈信息
-jstack 12386|grep -A 30 30c6   # 显示30行
+jstack 12386|grep -A 30 30c6   # 显示30行，进程id，线程id
 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=47.108.180.26 -J-Djava.rmi.server.logCalls=true
 
 # 查看gc次数
