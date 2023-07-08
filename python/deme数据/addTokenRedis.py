@@ -4,12 +4,12 @@ from sshtunnel import SSHTunnelForwarder # ssh连接库
 
 
 token_path = r".\login_token.csv"
-# pool = redis.ConnectionPool(host='172.29.101.42', port=6379, db=0, password='QWE123456')
+# pool = redis.ConnectionPool(host='xxx', port=6379, db=0, password='QWE123456')
 server = SSHTunnelForwarder(
-        ssh_address_or_host= ('47.108.168.38',22),   # ssh地址
+        ssh_address_or_host= ('xxx',22),   # ssh地址
         ssh_username= "root", # ssh连接的用户名
-        ssh_password=  "Deme112233!@#!@#" , # ssh连接的用户名
-        remote_bind_address=('r-2vcinifo71556p3qin.redis.cn-chengdu.rds.aliyuncs.com', 6379))
+        ssh_password=  "xxx" , # ssh连接的用户名
+        remote_bind_address=('r-2xxxx', 6379))
 
 def execute_sql():
     try:

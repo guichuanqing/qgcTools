@@ -4,10 +4,10 @@ import redis
 
 # mysql
 db_config = {
-    'host': '18.167.240.43',
+    'host': '18.167.',
     'port': 3306,
-    'user': 'deme3.0',
-    'passwd': 'fdFNbdJZTPxrYNGa',
+    'user': 'dem',
+    'passwd': 'fdFNbdJZTPxra',
     'db': 'deme3.0',
     'charset':'utf8'
 }
@@ -22,7 +22,7 @@ conn.close()
 
 # redis
 redisArgs={
-    'host':'119.23.73.197',
+    'host':'119.23.',
     'port':6379,
     'password':'123456',
 }

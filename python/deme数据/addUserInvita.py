@@ -46,15 +46,15 @@ def con_login(phone):
 # 数据库插入
 def mysql_ssh(sql,args=None):
     with SSHTunnelForwarder(
-            ('47.108.168.38', 22),
+            ('47.108', 22),
             ssh_password='Deme112233!@#!@#',
             ssh_username='root',
             local_bind_address=('127.0.0.1', 22),
-            remote_bind_address=('rm-2vctoz47r43qrelfm.mysql.cn-chengdu.rds.aliyuncs.com', 3306)) as server:
+            remote_bind_address=('rm', 3306)) as server:
         print('SSH连接成功')
         conn = pymysql.connect(host='127.0.0.1',
                                port=22,
-                               user='deme3',
+                               user='dem',
                                password='7tEp8N283SkLYRAi',
                                database='deme3',
                                charset='utf8')

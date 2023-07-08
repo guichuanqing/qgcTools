@@ -20,11 +20,11 @@ email_path = r"D:\deme-test-performance\paramData\email.csv"
 def execute_sql():
     # mysql
     db_config = {
-        'host': '18.167.240.43',
+        'host': '18.167',
         'port': 3306,
-        'user': 'deme3.0',
+        'user': 'de',
         'passwd': 'fdFNbdJZTPxrYNGa',
-        'db': 'deme3.0',
+        'db': 'de',
         'charset':'utf8'
     }
     conn = pymysql.connect(**db_config)

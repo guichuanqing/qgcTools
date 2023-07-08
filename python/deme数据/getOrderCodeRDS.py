@@ -8,21 +8,21 @@ import base64
 
 
 orderCode_path = r"D:/deme-test-performance/paramData/t_order.csv"
-pool = redis.ConnectionPool(host='172.29.101.42', port=6379, db=0, password='QWE123456')
+pool = redis.ConnectionPool(host='172.', port=6379, db=0, password='QWE123456')
 
 def mysql_ssh(sql,args=None):
     with SSHTunnelForwarder(
-            ('47.108.168.38', 22),
+            ('47.108.', 22),
             ssh_password='Deme112233!@#!@#',
             ssh_username='root',
             local_bind_address=('127.0.0.1', 22),
-            remote_bind_address=('rm-2vctoz47r43qrelfm.mysql.cn-chengdu.rds.aliyuncs.com', 3306)) as server:
+            remote_bind_address=('rm-2vc', 3306)) as server:
         print('SSH连接成功')
         conn = pymysql.connect(host='127.0.0.1',
                                port=22,
-                               user='deme3',
+                               user='dem',
                                password='7tEp8N283SkLYRAi',
-                               database='deme3',
+                               database='de',
                                charset='utf8')
         print('mysql数据库连接成功')
         cursor = conn.cursor()
