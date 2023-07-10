@@ -28,7 +28,7 @@ jstack 12386|grep -A 30 30c6   # 显示30行，进程id，线程id
 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=47.108.180.26 -J-Djava.rmi.server.logCalls=true
 
 # 查看gc次数
-jstat -gcutil 28820 1000        内存：jstat -gccapacity 28820 1000
+jstat -gcutil 28820 1000        内存：jstat -gccapacity 28820 1000 
 
 
 
