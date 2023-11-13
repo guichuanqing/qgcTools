@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="" />
+    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../QWebStack" beforeDir="false" afterPath="$PROJECT_DIR$/../QWebStack" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,10 +43,10 @@
         <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="ProjectId" id="2KA6cyGahAyAzxSU8enZGkSlQ9P" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -55,7 +57,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../QWebStack" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -217,6 +219,7 @@
       <workItem from="1692149362620" duration="20000" />
       <workItem from="1692149402143" duration="30000" />
       <workItem from="1699510737583" duration="39000" />
+      <workItem from="1699511696896" duration="60000" />
     </task>
     <task id="LOCAL-00001" summary="update language">
       <created>1673416943528</created>
@@ -464,77 +467,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add index.html time" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1682044724265">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1682044724265" />
-    <state x="2610" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1684229287437">
+    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1699511756441">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2610" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1684229287437" />
-    <state x="2492" y="103" key="CommitChangelistDialog2" timestamp="1685160046679">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="572" y="103" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1684377516141" />
-    <state x="2492" y="103" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685160046679" />
-    <state x="2104" y="86" width="1536" height="860" key="DiffContextDialog" timestamp="1685160058201">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="184" y="86" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1684377487118" />
-    <state x="2104" y="86" width="1536" height="860" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685160058201" />
-    <state x="2659" y="261" key="FileChooserDialogImpl" timestamp="1688987829368">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="2659" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1688987829368" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1682325576535">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1682325576535" />
-    <state width="220" height="477" key="HiddenNamespacesPopup" timestamp="1684397309647">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1684397309647" />
-    <state x="461" y="164" key="SettingsEditor" timestamp="1681963126514">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1681963126514" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1685165604842">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1684377519653" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685165604842" />
-    <state x="2641" y="232" key="git4idea.branch.GitSmartOperationDialog" timestamp="1684228619741">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="2641" y="232" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1684228619741" />
+    <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1699511756441" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
