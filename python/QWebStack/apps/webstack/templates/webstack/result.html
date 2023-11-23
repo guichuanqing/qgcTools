@@ -1,0 +1,17 @@
+{% extends "webstack/index.html" %}
+{% load static %}
+{% block customize%}
+    <h5>解析结果：</h5>
+    <div>
+        <div>
+{#            <form action="/upload" method="post" enctype="multipart/form-data">#}
+{#                <!-- 文件上传输入框 -->#}
+{#                <input type="file" name="fileInput" id="fileInput" accept=".xmind">#}
+{##}
+{#                <!-- 提交按钮 -->#}
+{#                <input type="submit" value="解析xmind">#}
+{#            </form>#}
+            <pre>{{ result_lines }}</pre>
+        </div>
+    </div>
+{% endblock %}

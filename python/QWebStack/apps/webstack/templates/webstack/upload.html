@@ -1,0 +1,18 @@
+{% extends "webstack/index.html" %}
+{% load static %}
+{% block customize%}
+    <h3>Xmind测试用例数统计</h3>
+    <div>
+        <div>
+            <form method="post" enctype="multipart/form-data">
+                <!-- 文件上传输入框 -->
+{#                <input type="file" name="fileInput" id="fileInput" accept=".xmind">#}
+                {%  csrf_token %}
+                {{ form }}
+                <br>
+                <!-- 提交按钮 -->
+                <button type="submit">解析xmind</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,5 +1,8 @@
+from django.core.files.storage import default_storage
 from django.shortcuts import render
 from .models import Category, SubCategory, Site
+from .forms import UploadXmindForm
+from .countXmindTestCase import xmind_parse_file
 
 # Create your views here.
 
@@ -16,7 +19,6 @@ def index_view(request):
     context = {
         "data": total
     }
-    print(request)
     return render(request, 'webstack/index.html', context=context)
 
 # def link_view(request):
@@ -34,14 +36,16 @@ def index_view(request):
 #     }
 #     return render(request, 'webstack/link.html', context=context)
 
-def test_view(request):
-    # with open('data.csv','r',encoding='utf-8') as f:
-    #     for item in f.readlines():
-    #         data = item.split(',')
-    #         data[-1].replace('\n','')
-    #         if data[0] == '摄影图库':
-    #             sub = SubCategory.objects.filter(name='摄影资源')
-    #             if len(sub) != 0:
-    #                 s = Site(name=data[-2],describtion=data[-1],url=data[1],logo_url=data[2],category=sub.first())
-    #                 s.save()
-    return render(request, 'webstack/test.html')
+def upload_xmind(request):
+    if request.method == 'POST':
+        form = UploadXmindForm(request.POST, request.FILES)
+        if form.is_valid():
+            xmind_file = form.cleaned_data['xmind_file']
+            file_path = default_storage.save(xmind_file, xmind_file)
+            local_file_path = default_storage.path(file_path)
+            result_lines = xmind_parse_file(local_file_path)
+            return render(request, 'webstack/result.html', {'result_lines': len(result_lines)})
+    else:
+        form = UploadXmindForm()
+    return render(request, 'webstack/upload.html', {'form': form})
+
