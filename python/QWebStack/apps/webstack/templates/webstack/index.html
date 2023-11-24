@@ -26,28 +26,28 @@
                 </header>
                 <ul id="main-menu" class="main-menu">
                     <li>
-                        <a href="#常用导航" class="smooth">
+                        <a href="index.html" >
                             <i class="linecons-star"></i>
                             <span class="title">常用导航</span>
                         </a>
                     </li>
-                    {% for item in data %}
-                    <li>
-                        <a>
-                            <i class="{{ item.cate.icon }}"></i>
-                            <span class="title">{{ item.cate }}</span>
-                        </a>
-                        <ul>
-                            {% for sub in item.subcate %}
-                            <li>
-                                <a href="#{{ sub.subcate }}" class="smooth">
-                                    <span class="title">{{ sub.subcate }}</span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-
-                    {% endfor %}
+{#                    {% for item in data %}#}
+{#                    <li>#}
+{#                        <a>#}
+{#                            <i class="{{ item.cate.icon }}"></i>#}
+{#                            <span class="title">{{ item.cate }}</span>#}
+{#                        </a>#}
+{#                        <ul>#}
+{#                            {% for sub in item.subcate %}#}
+{#                            <li>#}
+{#                                <a href="#{{ sub.subcate }}" class="smooth">#}
+{#                                    <span class="title">{{ sub.subcate }}</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{##}
+{#                    {% endfor %}#}
                     <li>
 {#                        <a href="www.baidu.com" class="smooth">#}
                         <a href="upload.html">
@@ -109,7 +109,7 @@
                 <!-- 常用推荐 -->
                 {% for item in data %}
                 {% for sub in item.subcate %}
-                <h4 class="text-gray"><i class="linecons-tag" style="margin-right: 7px;" id="{{sub.subcate}}"></i>{{sub.subcate}}</h4>
+{#                <h4 class="text-gray"><i class="linecons-tag" style="margin-right: 7px;" id="{{sub.subcate}}"></i>{{sub.subcate}}</h4>#}
                 {% for site in sub.sites %}
                 {% if forloop.counter0|divisibleby:4 %}
                 <div class="row">
