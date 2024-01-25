@@ -1,0 +1,173 @@
+import csv
+import math
+import requests
+import os
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.common.by import By
+import time
+import asyncio
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from aiohttp import ClientSession
+from selenium.webdriver.chrome.options import Options
+
+
+
+header = {
+    'Accept': 'application/json',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-CN,zh;q=0.9',
+    'Connection': 'keep-alive',
+    'Content-Length': '1130',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
+    'origin': 'https://test-admin.demeworld.cn',
+    'referer': 'https://test-admin.demeworld.cn/',
+}
+appId = '3962d6355f2b4f51ae4b41c42acfe325'
+Token = '007eJxTYKhz0UkWXcR217q897BGjKA4s2Yhu6Cd301Gvl2Xdz0uylFgMLY0M0oxMzY1TTNKMkkzNUxMNUkyMUw2MUpMTks1NjINk5yb2hDIyJD5byILIwMEgvjCDIbmJiZmZgYGFobmpqaGBsZGxiYMDACgPR2+'
+channelName = '1744660081755103234'
+userIds1 = [1091,
+1102,
+1110,
+1111,
+13271,
+13772,
+13775,
+29686,
+32262,
+32263,
+32264,
+32269,
+34984,
+36001,
+36005,
+36008,
+36011,
+36012,
+36024,
+36026,
+36028,
+36038,
+36031,
+36032,
+36035,
+36038]
+url = 'http://192.168.110.79:8080/#/basic-live'
+
+# # 打开浏览器
+def open_browser(uid):
+    # opt = webdriver.ChromeOptions()  # 创建Chrome参数对象
+    # opt.headless = True  # 把Chrome设置成可视化无界面模式，windows/Linux 皆可
+    # driver = webdriver.Chrome(options=opt)  # Chrome浏览器
+    # driver.get(url)
+    time.sleep(3)
+    app_id = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[1]/div[2]/div/input')
+    app_id.send_keys(appId)
+    token = driver.find_element(By.XPATH,  '/html/body/div[1]/div/div/div[1]/div[2]/div[2]/div/input')
+    token.send_keys(Token)
+    channel_name = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[3]/div[2]/div/input')
+    channel_name.send_keys(channelName)
+    user_id = driver.find_element(By.XPATH,  '/html/body/div[1]/div/div/div[1]/div[4]/div[2]/div/input')
+    user_id.send_keys(uid)
+    but_join = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[2]/div/div/button[1]')
+    but_join.click()
+    # time.sleep(5000)
+    # driver.quit()
+
+
+# 多次新增变更data数据
+# def get_join_token(data):
+#     data = {"channelName":"1744554515825164289","aid":"1038"}
+#     header['token'] ='F37CCF10-539D-4D42-873E-F357B4E97C51_1744550379254996992'
+#     res = requests.post(url='https://testgw.popp.club/im/user/agora/getToken', headers=header, json=data).json()['data']
+#     print(res)
+#
+#     return data
+
+# async def perform_input(uid):
+#     # 创建 Chrome WebDriver
+#     # driver = webdriver.Chrome()
+#     try:
+#         open_browser(uid)
+#         # 等待一段时间（模拟异步操作）
+#         await asyncio.sleep(10)
+#         # 执行其他操作...
+#
+#     finally:
+#         # 关闭 WebDriver
+#         driver.quit()
+#
+# async def main():
+#     # 创建多个任务
+#     tasks = [
+#         perform_input(1),
+#         perform_input(2),
+#         perform_input(3),
+#         # 添加更多任务...
+#     ]
+#
+#     # 使用 asyncio.gather 启动所有任务
+#     await asyncio.gather(*tasks)
+
+# 异步运行主函数
+# asyncio.run(main())
+
+def test(userIds):
+    a= 0
+    # 创建多个浏览器窗口
+    driver_list = []
+    print('共打开浏览器',len(userIds))
+    for i in range(len(userIds)):
+        # opt = webdriver.ChromeOptions()  # 创建Chrome参数对象
+        # opt.headless = True  # 把Chrome设置成可视化无界面模式，windows/Linux 皆可
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')  #options=chrome_options
+        driver = webdriver.Chrome(options=chrome_options)  # Chrome浏览器
+        driver.get(url)
+        print(f'\r打开第{i}个浏览器', end=' ', flush=True)
+        driver_list.append(driver)
+
+    # 操作每个浏览器窗口
+    for driver in driver_list:
+        # 执行一些操作，例如点击按钮或输入文本
+        time.sleep(3)
+        app_id = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[1]/div[2]/div/input')
+        app_id.send_keys(appId)
+        token = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[2]/div[2]/div/input')
+        token.send_keys(Token)
+        channel_name = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[3]/div[2]/div/input')
+        channel_name.send_keys(channelName)
+        user_id = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div[4]/div[2]/div/input')
+        user_id.send_keys(userIds[a])
+        but_join = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div[2]/div/div/button[1]')
+        but_join.click()
+        print(f'用户{userIds[a]}加入成功')
+        a += 1
+
+
+
+    # 关闭所有浏览器窗口
+    for driver in driver_list:
+        time.sleep(5000)
+        driver.quit()
+
+def aid_read():
+    res = []
+    with open(aid_path) as f:
+        f_csv = csv.reader(f)
+        for row in f_csv:
+            try:
+                res.append(row[1])
+            except Exception as error:
+                print(error)
+    return res[1:]
+if __name__ == "__main__":
+    aid_path = r"C:\Users\qgc\Desktop\joinClub.csv"
+    userIds = aid_read()
+    # token = con_manage()
+    # get_join_token(1)
+    # open_browser()
+    test(userIds)

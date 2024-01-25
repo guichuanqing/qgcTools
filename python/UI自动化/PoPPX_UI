@@ -1,0 +1,110 @@
+import csv
+import math
+import requests
+import os
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.common.by import By
+import time
+import asyncio
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from aiohttp import ClientSession
+from selenium.webdriver.chrome.options import Options
+import random
+import selenium.webdriver.support.expected_conditions as EC
+import selenium.webdriver.support.ui as ui
+import threading
+from selenium.webdriver.common.alert import Alert
+
+
+
+
+
+header = {
+    'Accept': 'application/json',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-CN,zh;q=0.9',
+    'Connection': 'keep-alive',
+    'Content-Length': '1130',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
+    'origin': 'https://test-admin.demeworld.cn',
+    'referer': 'https://test-admin.demeworld.cn/',
+}
+Token = '007eJxTYKhz0UkWXcR217q897BGjKA4s2Yhu6Cd301Gvl2Xdz0uylFgMLY0M0oxMzY1TTNKMkkzNUxMNUkyMUw2MUpMTks1NjINk5yb2hDIyJD5byILIwMEgvjCDIbmJiZmZgYGFobmpqaGBsZGxiYMDACgPR2+'
+
+url = 'https://testx.popp.club/'
+
+topic_locator = f'/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div/div/div/div[{random.randint(1, 6)}]/button'
+share_locator = '/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div[2]'
+share_twitter_locator = '/html/body/div[3]/div[2]/section/div[2]/div[4]/button[2]'
+twitter_locator = '/html/body/div[1]/div/div/div[2]/main/div/div/div[2]/div/div/div/div/div[3]/div/div[1]'
+
+# # 打开浏览器
+def start_browser():
+    driver = webdriver.Chrome()
+    return driver
+
+def excute(driver):
+    if is_visible(driver, topic_locator):
+        but_join = driver.find_element(By.XPATH, topic_locator)     #f'/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div/div/div/div[{rand_topic}]/button'
+        but_join.click()
+
+    if is_visible(driver, share_locator):
+        but_share = driver.find_element(By.XPATH, share_locator)
+        but_share.click()
+        time.sleep(3)
+
+    if is_visible(driver, share_twitter_locator):
+        but_share_twitter = driver.find_element(By.XPATH, share_twitter_locator)
+        but_share_twitter.click()
+        time.sleep(3)
+    # 切换到弹出窗口的句柄
+    window_handle = driver.window_handles[-1]
+    driver.switch_to.window(window_handle)
+    if is_visible(driver, twitter_locator, 30):
+        # 关闭弹出窗口
+        driver.close()
+        # 切换回原始窗口
+        driver.switch_to.window(driver.window_handles[0])
+    driver.get(url)
+
+def is_visible(driver, locator, timeout=20):
+    try:
+        ui.WebDriverWait(driver, timeout).until(EC.presence_of_element_located((By.XPATH, locator)))
+        return True
+    except TimeoutError:
+        return False
+
+def browser_thread(driver: webdriver.Chrome):
+    try:
+        a = 1
+        driver.get(url)
+        while True:
+            print(f'\r正在进行第{a}次操作', end=' ', flush=True)
+            excute(driver)
+            a +=1
+    except Exception:
+        return False
+
+def test():
+    # opt = webdriver.ChromeOptions()  # 创建Chrome参数对象
+    # opt.headless = True  # 把Chrome设置成可视化无界面模式，windows/Linux 皆可
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')  #options=chrome_options
+    # driver = webdriver.Chrome(options=chrome_options)  # Chrome浏览器
+    for i in range(5):
+        # driver = webdriver.Chrome()  # Chrome浏览器
+        # driver.get(url)
+        driver = start_browser()
+        threading.Thread(target=browser_thread, args=(driver,)).start()
+
+    for thread in threading.enumerate():
+        if thread is not threading.current_thread():
+            thread.join()
+
+
+if __name__ == "__main__":
+    test()
