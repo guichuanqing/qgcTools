@@ -41,11 +41,12 @@ def upload_xmind(request):
         form = UploadXmindForm(request.POST, request.FILES)
         if form.is_valid():
             xmind_file = form.cleaned_data['xmind_file']
-            file_path = default_storage.save(xmind_file, xmind_file)
+            file_content = xmind_file.open()
+            file_name = xmind_file.name
+            file_path = default_storage.save(file_name, file_content)
             local_file_path = default_storage.path(file_path)
             result_lines = xmind_parse_file(local_file_path)
             return render(request, 'webstack/result.html', {'result_lines': len(result_lines)})
     else:
         form = UploadXmindForm()
     return render(request, 'webstack/upload.html', {'form': form})
-

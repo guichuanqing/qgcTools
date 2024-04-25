@@ -19,9 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../QWebStack" beforeDir="false" afterPath="$PROJECT_DIR$/../QWebStack" afterDir="false" />
-    </list>
+    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -220,6 +218,7 @@
       <workItem from="1692149402143" duration="30000" />
       <workItem from="1699510737583" duration="39000" />
       <workItem from="1699511696896" duration="60000" />
+      <workItem from="1708425478773" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="update language">
       <created>1673416943528</created>

@@ -5,7 +5,7 @@
 # @File : forms.py
 # Description : 文件说明
 """
-from django import  forms
+from django import forms
 
 class UploadXmindForm(forms.Form):
     xmind_file = forms.FileField()
