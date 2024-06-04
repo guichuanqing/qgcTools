@@ -19,7 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="" />
+    <list default="true" id="94102ac3-1f56-46b1-b7a6-bfac5aa9f9f8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../jar包/jsch-0.1.55.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jar包/mysql-connector-java-8.0.25.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/web3Sign/src/Sign.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/web3Sign/src/Sign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AppAgent" beforeDir="false" afterPath="$PROJECT_DIR$/../AppAgent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../familytree-paddle" beforeDir="false" afterPath="$PROJECT_DIR$/../familytree-paddle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +62,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../QWebStack" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -219,6 +226,7 @@
       <workItem from="1699510737583" duration="39000" />
       <workItem from="1699511696896" duration="60000" />
       <workItem from="1708425478773" duration="20000" />
+      <workItem from="1714032912862" duration="2195000" />
     </task>
     <task id="LOCAL-00001" summary="update language">
       <created>1673416943528</created>
