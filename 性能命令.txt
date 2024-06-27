@@ -30,7 +30,11 @@ jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=4
 # 查看gc次数
 jstat -gcutil 28820 1000        内存：jstat -gccapacity 28820 1000 
 
+# 查看所有java内存
+ps aux | grep java | awk '{print $6/1024 " MB : " $11}'
 
+# 查看java的垃圾回收器
+jinfo -flags [你的应用进程号]
 
 ################### influxdb
 #导出数据

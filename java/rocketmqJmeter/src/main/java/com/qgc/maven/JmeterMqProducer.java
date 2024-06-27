@@ -9,9 +9,9 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
-import sun.awt.windows.WPrinterJob;
-
-import java.util.Random;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
+import com.alibaba.fastjson.JSONObject;
+import java.io.UnsupportedEncodingException;
 
 
 public class JmeterMqProducer extends AbstractJavaSamplerClient {
@@ -30,6 +30,7 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
     private long cur_time;
     private byte[] bodyBytes;
     private String orginData;
+//    private final Logger log = LogManager.getLogger(JmeterMqProducer.class);
 
     //这里定义这里作为请求的前置处理
     @Override
@@ -39,6 +40,7 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
         tags = context.getParameter("tags");
         keys = context.getParameter("keys");
         body = context.getParameter("messageBody");
+        bodyBytes = body.getBytes();
         producerName = context.getParameter("producerName");
         producerGroup = context.getParameter("producerGroup");
         timeout = context.getParameter("timeout");
@@ -56,16 +58,14 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
     //这里自定义了一个Producer的单例方法
     public DefaultMQProducer getProducer(int type) throws InterruptedException {
         if (producer == null){
-            producer = new DefaultMQProducer(producerGroup);
+            producer = new DefaultMQProducer(producerName);
             if (type == 1){
-                System.out.println("=======init producer == null===========");
+                System.out.println("=======init producer =====");
                 cur_time = System.currentTimeMillis();
             }else {
-                System.out.println("=======runtest producer == null===========");
+                System.out.println("=======runtest producer =====");
             }
-            producer.setNamesrvAddr(serverUrl);
-            producer.setInstanceName(producerName);
-            producer.setVipChannelEnabled(false);
+            producer.setNamesrvAddr(serverUrl); //serverUrl
             // 设置超时时间
             producer.setSendMsgTimeout(Integer.parseInt(timeout));
         }
@@ -86,52 +86,67 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
     //这里是一个请求主体执行部分
     @Override
     public SampleResult runTest(JavaSamplerContext context) {
+
         SampleResult sr = new SampleResult();
         sr.sampleStart();
-        // sr.setRequestHeaders("请求原始的msg_body:"+ orginData); 设置请求头内容
-        Message msg = new Message(topic,
-                tags,
-                keys,
-                bodyBytes);
-        // msg.getProperties().put("traceparent", "xxx");
+        Message msg = null;
         try {
+            msg = new Message(topic, tags, keys, body.getBytes(RemotingHelper.DEFAULT_CHARSET));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("serverUrl", serverUrl);
+            json.put("sendType", sendType);
+            json.put("topic", topic);
+            json.put("tags", tags);
+            json.put("keys", keys);
+            json.put("producerName", producerName);
+            sr.setRequestHeaders(json.toString());
+            sr.setSamplerData(body);
             if ("oneWay".equals(sendType)){
                 producer.sendOneway(msg);
-                sr.setResponseData("Oneway发送成功","utf-8");
+                sr.setResponseData("{\"code\": \"200\", \"SendStatus\" : \"success\"}","utf-8");
             }else {
                 SendResult sendResult = producer.send(msg);
                 sr.setResponseData(sendResult.toString(),"utf-8");
-                if(sendResult ==null || sendResult.getSendStatus() != SendStatus.SEND_OK){
+                if(sendResult !=null || sendResult.getSendStatus() == SendStatus.SEND_OK){
+                    sr.setResponseData("{\"code\": \"200\", \"SendStatus\" : \"" + sendResult.getSendStatus() + "\",\"MsgId\" : \"" + sendResult.getMsgId() +"\"}","utf-8");
+                }
+                else {
                     System.err.println(sendResult);
-                    sr.setResponseData("{'code' : 1, 'msg': '失败'}","utf-8");
+                    sr.setResponseData("{\"code\" : \"500\", \"msg\": \"失败\", \"Error\": \""+ sendResult.toString() +"\"}","utf-8");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            sr.setResponseData("{'code' : 2, 'msg': '其他失败啊'}","utf-8");
+            sr.setResponseData("{\"code\" : \"501\", \"msg\": \"其他失败\", \"Error\": "+ e +"}","utf-8");
             producer.shutdown();
 
         }
-        sr.setDataType(SampleResult.TEXT);
-        sr.setSuccessful(true);
-    }catch(Exception e){
-        sr.setSuccessful(false);
-        e.printStackTrace();
-    }
+        try {
+            sr.setDataType(SampleResult.TEXT);
+            sr.setSuccessful(true);
+        }catch(Exception e){
+            sr.setSuccessful(false);
+            e.printStackTrace();
+        }
         finally {
-        sr.sampleEnd();
-    }
+            sr.sampleEnd();
+        }
         return sr;
 
-}
+    }
 
     // 给参数填充默认值
     @Override
     public Arguments getDefaultParameters() {
         Arguments params = new Arguments();
-        params.addArgument("serverUrl", "http://mq.xxx.com");
-        params.addArgument("topic", "test_topic");
-        params.addArgument("tags", "test_tag");
+        params.addArgument("serverUrl", "18.162.126.78:9876");
+        params.addArgument("topic", "qgc_TopicTest");
+        params.addArgument("tags", "qgc_TagA");
         params.addArgument("keys", "test_key");
         params.addArgument("messageBody", "test_body");
         params.addArgument("producerName", "test_producerName");
@@ -141,5 +156,17 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
         params.addArgument("delayTime", "100");
 
         return params;
+    }
+
+    public static void main(String[] args) throws Exception {
+        JmeterMqProducer a = new JmeterMqProducer();
+        DefaultMQProducer producer = a.getProducer(1);
+//        producer.start();
+//        for (int i = 0; i < 100; i++) {
+//            Message msg = new Message("qgc_TopicTest", "qgc_TagA", ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+//            SendResult sendResult = producer.send(msg);
+//            System.out.printf("%s%n", sendResult);
+//        }
+//        producer.shutdown();
     }
 }
