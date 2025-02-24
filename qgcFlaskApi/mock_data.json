@@ -1,0 +1,27 @@
+{
+    "code": "00",
+    "msg": "success",
+    "data": {
+        "token": "13AB605C-23A9-44B1-9773-8CD9121D3964_1893911649013137408",
+        "uid": "1892461914532265984",
+        "nickname": "Explorer ZtCPgp",
+        "address": "0xa0c9990db6847e751536ead8a6347b90dfd68950",
+        "deid": "DSBbseF1HutK7KXvG4MKhgc5AGU1GCWdF9B",
+        "avatar": "https://storage.popp.club/user-avatar/Picture-2.png",
+        "loginAddress": "0xa0c9990db6847e751536ead8a6347b90dfd68950",
+        "registerType": 3,
+        "medalNewUser": 0,
+        "hasPayPwd": 0,
+        "authStatus": 0,
+        "addClub": 1,
+        "allowAdd": 3,
+        "aid": "102050",
+        "ipInfo": {
+            "ip": "38.47.127.53",
+            "country": "美国",
+            "region": "0",
+            "chinaMainland": false
+        },
+        "referralCode": "SIOR2Q"
+    }
+}
