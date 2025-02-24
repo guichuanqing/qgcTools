@@ -15,7 +15,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class rocketmqJmeter {
+public class rocketMQ {
     public static volatile boolean running = true;
 
     // 发送消息

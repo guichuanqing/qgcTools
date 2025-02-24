@@ -145,11 +145,11 @@ public class JmeterMqProducer extends AbstractJavaSamplerClient {
     public Arguments getDefaultParameters() {
         Arguments params = new Arguments();
         params.addArgument("serverUrl", "18.162.126.78:9876");
-        params.addArgument("topic", "qgc_TopicTest");
-        params.addArgument("tags", "qgc_TagA");
-        params.addArgument("keys", "test_key");
-        params.addArgument("messageBody", "test_body");
-        params.addArgument("producerName", "test_producerName");
+        params.addArgument("topic", "");
+        params.addArgument("tags", "");
+        params.addArgument("keys", "");
+        params.addArgument("messageBody", "");
+        params.addArgument("producerName", "");
         params.addArgument("producerGroup", "producerGroup");
         params.addArgument("timeout", "6000");
         params.addArgument("sendType", "oneWay");

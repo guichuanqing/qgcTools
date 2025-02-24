@@ -1,18 +1,17 @@
-package com.qgc.Web3Sign;
+package com.qgc.Web3Sign.functions;
 import org.web3j.crypto.Credentials;
 import org.web3j.utils.Numeric;
-//import java.math.BigDecimal;
-//import java.math.BigInteger;
-//import java.util.concurrent.ExecutionException;
+import org.web3j.crypto.Sign;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.engine.util.CompoundVariable;
 import org.apache.jmeter.functions.InvalidVariableException;
 import org.apache.jmeter.samplers.Sampler;
-import org.web3j.crypto.*;
 import org.apache.jmeter.functions.AbstractFunction;
 
 public class App extends AbstractFunction {
@@ -37,14 +36,15 @@ public class App extends AbstractFunction {
 
         if (signMessage.execute() != null && !signMessage.execute().isEmpty()){
             try {
+                if (privateKey.execute() != null && privateKey.execute().length() == 64) {
 //                String address = getKeyAddress(privateKey.execute());
-                String signature = signMessage(privateKey.execute(), signMessage.execute());
-                return signature;
+                    String signature = signMessage(privateKey.execute(), signMessage.execute());
+                    return signature;
+                }
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-
         }
         return null;
     }
@@ -68,8 +68,7 @@ public class App extends AbstractFunction {
      * @return
      */
     public String getReferenceKey() {
-        System.out.println("-----------------init：" );
-        return "qgcWalletSign";
+        return "__qgcWalletSign";
     }
 
     @Override
@@ -82,19 +81,29 @@ public class App extends AbstractFunction {
         //界面上显示两行参数描述
         desc.add("message：需要签名的字符串");
         desc.add("privateKey：私钥");
-        System.out.println("私钥：111" );
         return desc;
     }
 
     public static String signMessage(String privateKey, String message) throws Exception {
-        // 创建Credentials对象
-        Credentials credentials = Credentials.create(privateKey);
-        // 计算消息的哈希值
-        byte[] messageHash = Hash.sha3(message.getBytes());
-        // 使用私钥对消息哈希进行签名
-        Sign.SignatureData signatureData = Sign.signMessage(messageHash, credentials.getEcKeyPair());
-        // 将签名结果编码为Hex字符串
-        String signature = Numeric.toHexString(signatureData.getR()) + Numeric.toHexString(signatureData.getS()) + Numeric.toHexString(signatureData.getV());
-        return signature;
+        try {
+            // web3j版本5.0.0
+            // 如果验签不成功，就不需要hash.sha3 直接content.getBytes()就可以了
+//        byte[] contentBytes = Hash.sha3(message.getBytes(StandardCharsets.UTF_8));
+            byte[] messageHashBytes = message.getBytes(StandardCharsets.UTF_8);
+            Credentials credentials = Credentials.create(privateKey);
+            // 使用私钥对消息哈希进行签名
+            Sign.SignatureData signatureData = Sign.signPrefixedMessage(messageHashBytes, credentials.getEcKeyPair());
+            byte[] r = signatureData.getR();
+            byte[] s = signatureData.getS();
+            byte[] v = signatureData.getV();
+            byte[] signByte = Arrays.copyOf(r, v.length + r.length + s.length);
+            System.arraycopy(s, 0, signByte, r.length, s.length);
+            System.arraycopy(v, 0, signByte, r.length + s.length, v.length);
+            String signature = Numeric.toHexString(signByte);
+            return signature;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
     }
 }

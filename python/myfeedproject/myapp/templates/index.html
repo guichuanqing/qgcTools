@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀑布流展示</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            width: 60%;
+            gap: 10px;
+        }
+        .column-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .item {
+            background: rgb(26, 26, 26);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 10px;
+            max-width: 100%;
+        }
+        .item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .item-header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+        .item-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .item-header .nickname {
+            font-weight: bold;
+        }
+        .item-content {
+            padding: 10px;
+            max-height: 8.5em; /* Limit the height to approximately 8 lines of text */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 8;
+            -webkit-box-orient: vertical;
+            line-height: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="column-container" id="left-column"></div>
+        <div class="column-container" id="right-column"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const leftColumn = document.getElementById('left-column');
+            const rightColumn = document.getElementById('right-column');
+
+            function loadArticles() {
+                fetch('/api/articles/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const left = [];
+                        const right = [];
+                        const heights = [];
+
+                        data.forEach(item => {
+                            const width = item.width || 160;
+                            const height = item.height || 160;
+                            const imgHeight = (height / width * 160);
+                            const contentHeight = 8.5 * 1.5;
+                            const cardHeight = imgHeight + contentHeight + 77;
+                            heights.push(cardHeight);
+                        });
+
+                        let leftHeight = 0;
+                        let rightHeight = 0;
+
+                        data.forEach((item, index) => {
+                            const itemHeight = heights[index];
+                            if (leftHeight <= rightHeight) {
+                                left.push(item);
+                                leftHeight += itemHeight;
+                            } else {
+                                right.push(item);
+                                rightHeight += itemHeight;
+                            }
+                        });
+
+                        function appendItems(column, items) {
+                            items.forEach(item => {
+                                const div = document.createElement('div');
+                                div.className = 'item';
+                                div.innerHTML = `
+                                    <div class="item-header">
+                                        <img src="${item.user__avatar_url}" alt="${item.user__nickname}">
+                                        <span class="nickname">${item.user__nickname}</span>
+                                    </div>
+                                    ${item.image_url ? `<img src="${item.image_url}" alt="Article Image">` : ''}
+                                    <div class="item-content">${item.content}</div>
+                                `;
+                                column.appendChild(div);
+                            });
+                        }
+
+                        appendItems(leftColumn, left);
+                        appendItems(rightColumn, right);
+                    });
+            }
+
+            loadArticles();
+        });
+    </script>
+</body>
+</html>
+
