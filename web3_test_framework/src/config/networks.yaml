@@ -1,0 +1,18 @@
+# config/networks.yaml
+chains:
+  bsc_mainnet:
+    rpc: "https://bsc-dataseed.binance.org"
+    chain_id: 56
+    explorer: "https://bscscan.com"
+    gas_config:
+      strategy: "dynamic"     # dynamic|fixed
+      max_gwei: 50           # 最大接受gas价格
+      priority_fee: 1.5      # 优先费倍数
+
+  bsc_testnet:
+    rpc: "https://data-seed-prebsc-1-s1.binance.org:8545"
+    chain_id: 97
+    explorer: "https://testnet.bscscan.com"
+    gas_config:
+      strategy: "fixed"
+      gwei: 10

@@ -1,0 +1,24 @@
+# config/accounts.yaml
+vault_version: 1
+encryption_key: "$VAULT_KEY"  # 从环境变量读取
+
+accounts:
+  # 明文账户（不推荐）
+  test_account:
+    address: "0x123..."
+    private_key: "0x456..."
+    networks: ["bsc_testnet"]  # 限制可用网络
+
+  # 加密账户（推荐）
+  admin:
+    address: "0x789..."
+    private_key: "encrypted:gAAAAABkO..."
+    networks: ["bsc_mainnet", "polygon_mainnet"]
+    tags: ["privileged"]
+
+  # 模式生成账户
+  user_%:
+    generator: "mnemonic"     # 生成方式：mnemonic|private_key|keystore
+    mnemonic: "apple banana ..."  # 加密存储
+    count: 5                  # 生成5个账户(user_1到user_5)
+    derivation_path: "m/44'/60'/0'/0/%d"

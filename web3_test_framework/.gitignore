@@ -1,0 +1,4 @@
+# .gitignore
+/artifacts/*.dbg.json
+/config/accounts.yaml
+*.encrypted

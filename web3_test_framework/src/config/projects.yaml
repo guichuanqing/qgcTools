@@ -1,0 +1,22 @@
+# 示例：CCat项目
+CCat:
+  env_config:
+    base_domain: "nft-market.io"  # 基础域名
+    api_paths:
+      prod:
+        api: "https://api.nft-market.io/v1"
+        graphql: "https://graphql.nft-market.io"
+      staging:
+        api: "https://staging-api.nft-market.io/v1"
+        graphql: "https://staging-graphql.nft-market.io"
+
+  chain_config:
+    default_network: "bsc_mainnet"
+    supported_networks:
+      - "bsc_mainnet"
+      - "polygon_mainnet"
+      - "bsc_testnet"
+
+  account_groups:
+    admins: ["admin", "super_admin"]  # 使用accounts.yaml中的账户别名
+    users: ["user_{1..5}"]           # 支持模式匹配生成账户

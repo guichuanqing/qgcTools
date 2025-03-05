@@ -5,7 +5,7 @@
 # @File : serializers.py
 # Description : 文件说明
 """
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework.serializers import HyperlinkedModelSerializer
 
 
@@ -14,3 +14,8 @@ class UsersModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'is_staff', 'is_active', 'last_login')
+
+class MockSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['url', 'name']
