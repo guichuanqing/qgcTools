@@ -21,7 +21,7 @@ class ConfigLoader:
         load_dotenv()  # 加载环境变量
 
     def _load_yaml(self, filename: str) -> Dict[str, Any]:
-        with open(self.base_path / filename) as f:
+        with open(self.base_path / filename, 'r', encoding='utf-8') as f:
             return yaml.safe_load(f)
 
     def load_project_config(self) -> Dict[str, Any]:
@@ -43,8 +43,9 @@ class ConfigLoader:
 
         # 解密处理
         decrypted = {}
+        print("accounts_data:", accounts_data)
         for alias, acc in accounts_data["accounts"].items():
-            if acc["private_key"].startswith("encrypted:"):
+            if "private_key" in acc and acc["private_key"].startswith("encrypted:"):
                 decrypted[alias] = self._decrypt_account(acc, accounts_data["encryption_key"])
             else:
                 decrypted[alias] = acc
