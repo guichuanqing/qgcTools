@@ -8,11 +8,12 @@
 from web3_test_framework.services.http_client import HttpClient
 from web3_test_framework.core.account.wallet import Wallet
 
-class CCat(HttpClient):
+class CCatService:
 
-    def __init__(self):
-        super().__init__()
-        self.user: Wallet = None
+    def __init__(self, client: HttpClient, user: Wallet = None):
+        self.client = client
+        self.user = user
+        self._token = None
 
     def login(self):
         # 用户进行登录
