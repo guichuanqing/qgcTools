@@ -58,19 +58,20 @@ class Manager:
 
     def _load_all_account_files(self):
         """加载所有批量账户文件"""
-        for batch_file in self.batch_dir.glob("*.json"):
+        for batch_file in self.temp_dir.glob("*.json"):
             try:
                 wallets = WalletBatchGenerator.load_batch(batch_file)
                 for w in wallets:
                     self._wallets[w.alias] = w
                 self.logger.info(f"Loaded {len(wallets)} accounts from {batch_file}")
+                print("wallets:", self._wallets)
             except Exception as e:
                 self.logger.error(f"Failed to load {batch_file}: {str(e)}")
 
     def get_wallet(self, alias: str = None) -> Wallet:
         """获取指定账户（默认返回第一个）"""
         if alias:
-            return self._wallets[alias]
+            return self._wallets.get(alias, None)
         return next(iter(self._wallets.values()))
 
     def get_all_wallets(self) -> List[Wallet]:
@@ -85,9 +86,15 @@ class Manager:
 
 
 if __name__ == "__main__":
-    p_name = "CCat"
-    env = "test"
-    mm = Manager(project_name=p_name, env=env)
+    pass
+    # p_name = "CCat"
+    # env = "test"
+    # mm = Manager(project_name=p_name, env=env)
+    # w = Wallet(address='0xfc9345E748fe3514Df440d36a798196137fAA150', private_key='bb1d75b906366b992fe6e1e18ee252640c624e7582544dfc15d6f5027900fe46', alias='accounts_1741312954197_0')
     # mm._load_config_accounts()
-    mm._generate_temp_accounts(100)
-    print(mm.get_all_wallets())
+    # mm._generate_temp_accounts(100)
+    # mm._load_account_file(FileUtil.data_base/"CCat_temp"/"accounts_1741312954197.json")
+    # mm._load_all_account_files()
+    # mm.add_wallet(w)
+    # print(mm.get_all_wallets())
+    # print(mm.get_wallet("accounts_1741312954197_1"))
