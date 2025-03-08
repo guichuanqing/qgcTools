@@ -34,6 +34,7 @@ class ContractHandler:
     def __init__(self, w3: Web3, wallet: Wallet, contract: Optional[Contract] = None, project: str = None,
                  contract_name: str = None, contract_address: str = None, builder: Optional[TransactionBuilder] = None,
                  sender: Optional[TransactionSender] = None, abi_loader: ABILoader = None):
+
         # 参数验证
         if not (contract or (contract_address and project and contract_name)):
             raise ValueError(
