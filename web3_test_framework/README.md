@@ -1,3 +1,5 @@
+##目录结构
+```markdown
 pydapptest/                  # 项目根目录
 ├── contracts/               # Solidity智能合约源文件
 │   ├── ERC20/               # 代币合约示例目录
@@ -46,3 +48,114 @@ pydapptest/                  # 项目根目录
 ├── conftest.py              # Pytest全局fixture
 ├── pyproject.toml           # 项目依赖配置
 └── README.md                # 项目文档
+```
+
+###创建处理器自动加载ABI（名称为项目名+合约名.json）
+```python
+from web3 import Web3
+from core.account import Wallet
+from core.contract.handler import ContractHandler
+
+# 初始化
+w3 = Web3(Web3.HTTPProvider(RPC_URL))
+wallet = Wallet.from_private_key("0x...")
+
+try:
+    # 创建处理器（自动加载ABI）
+    handler = ContractHandler(
+        w3=w3,
+        wallet=wallet,
+        project="ask",              # 对应test/ask目录
+        contract_name="ERC20",      # 自动查找ERC20_abi.json
+        contract_address="0x123..."
+    )
+except FileNotFoundError as e:
+    print(e)
+
+# 调用合约方法
+balance = handler.call("balanceOf", wallet.address)
+print(f"余额: {balance}")
+```
+###基础调用链路使用:
+```python
+from web3 import Web3
+from core.account.wallet import Wallet
+from core.transaction.builder import TransactionBuilder
+from core.transaction.sender import TransactionSender
+
+# 初始化组件
+w3 = Web3(Web3.HTTPProvider(RPC_URL))
+contract = w3.eth.contract(address=..., abi=...)
+wallet = Wallet.from_private_key("0x...")
+builder = TransactionBuilder(w3)
+sender = TransactionSender(w3)
+
+# 构建合约调用交易
+tx_data = builder.build(
+    func=contract.functions.transfer("0x...", 100),
+    sender=wallet.address,
+    gas_strategy="high"
+)
+
+# 签名并发送
+signed_tx = wallet.sign_transaction(tx_data)
+receipt = sender.send_and_confirm(signed_tx)
+
+print(f"Tx confirmed in block {receipt.blockNumber}")
+```
+###handler.py的使用
+1. 初始化合约处理器
+```python
+from web3 import Web3
+from core.account import Wallet
+from core.contract.handler import ContractHandler
+
+w3 = Web3(Web3.HTTPProvider(RPC_URL))
+wallet = Wallet.from_private_key("0x...")
+
+# 加载合约
+erc20 = w3.eth.contract(
+    address="0x...",
+    abi=ERC20_ABI
+)
+
+# 创建处理器
+handler = ContractHandler(
+    w3=w3,
+    wallet=wallet,
+    contract=erc20
+)
+```
+2. 基础调用场景
+```python
+# 只读调用
+balance = handler.call("balanceOf", wallet.address)
+print(f"Current balance: {balance}")
+
+# 交易调用（自动处理Gas/Nonce）
+result = handler.transact(
+    func_name="transfer",
+    to_address="0x...",
+    amount=100,
+    gas_strategy="high"
+)
+
+if result["status"] == "success":
+    print(f"Tx confirmed in block {result['receipt'].blockNumber}")
+else:
+    print(f"Transaction failed: {result['error']}")
+```
+3. 高级使用模式
+```python
+# 直接访问原始合约方法（需要手动处理）
+raw_transfer = handler.functions.transfer("0x...", 100)
+tx_data = raw_transfer.build_transaction({
+    "from": wallet.address,
+    "nonce": handler.builder._get_next_nonce(wallet.address)
+})
+
+# 事件监听
+transfer_events = handler.events("Transfer", from_block=12345)
+for event in transfer_events:
+    print(f"Transfer: {event.args}")
+```

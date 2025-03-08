@@ -8,12 +8,14 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 WORKING_BASE = PROJECT_ROOT / "web3_test_framework"
 DATA_BASE = PROJECT_ROOT / "data"
 CONFIG_FILE = PROJECT_ROOT / "config.xml"
+APP_BASE = PROJECT_ROOT / "test"
 
 class FileUtil:
     # 类用于处理文件相关的操作，如文件路径管理、文件清理、文件复制等
     parent_url = PROJECT_ROOT
     data_base = DATA_BASE
     working_base = WORKING_BASE
+    app_base = APP_BASE
 
     @staticmethod
     def set_work_base(base_dir: str):

@@ -20,6 +20,10 @@ class CCatService:
         endpoint = "/login"
         method = "POST"
         rsp = self.call_api(endpoint, method)
+        if rsp:
+            self._token = rsp.json()["token"]
+            self.client.set_default_header("token", self._token)
+        return True
 
     def logout(self):
         # 用户退出登录
@@ -27,7 +31,12 @@ class CCatService:
 
     def ask(self, kol_user):
         # 用户对某个KOL进行提问
-        pass
+        if not self._token:
+            raise PermissionError("Require login first")
+        tx_data = {
+
+        }
+
 
     def answer(self, ask_id):
         # KOL用户对某个问题进行回答
