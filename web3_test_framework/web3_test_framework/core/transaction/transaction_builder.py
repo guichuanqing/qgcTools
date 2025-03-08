@@ -6,8 +6,9 @@
 # Description : 文件说明
 """
 from web3 import Web3
-from web3.contract import ContractFunction
+from web3.contract.contract import ContractFunction
 from .gas_estimator import GasEstimator
+from typing import Any, Union
 
 
 class TransactionBuilder:
@@ -18,12 +19,12 @@ class TransactionBuilder:
         self.gas_estimator = GasEstimator(w3)
         self.nonce_cache = {}
 
-    def build(self, func: ContractFunction, sender: str, value: int=0, gas_strategy: str = "medium") -> dict:
+    def build(self, func: Union[ContractFunction, Any], sender: str, value: int=0, gas_strategy: str = "medium") -> dict:
         """构建合约调用交易"""
         base_params = {
             "chainId": self.w3.eth.chain_id,
             "from": sender,
-            "nonce": self._get_next_nonce(sender)
+            "nonce": self._get_next_nonce(sender),
             "value": value
         }
         # 合并gas参数
@@ -38,9 +39,9 @@ class TransactionBuilder:
     def _get_next_nonce(self, address: str) -> int:
         """获取并缓存Nonce"""
         if address not in self.nonce_cache:
-            self.noce_cache[address] = self.w3.eth.get_transaction_count(address)
+            self.nonce_cache[address] = self.w3.eth.get_transaction_count(address)
         else:
             self.nonce_cache[address] += 1
-        return self.nonce_cache[address] -1     # 返回当前可用值
+        return self.nonce_cache[address]     # 返回当前可用值
 
 

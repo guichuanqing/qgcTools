@@ -14,7 +14,7 @@ from ..account.wallet import Wallet
 from .abi_loader import ABILoader
 
 
-class ContractHandler():
+class ContractHandler:
     """合约交互核心类
             w3 = Web3(Web3.HTTPProvider(RPC_URL))
             wallet = Wallet.from_private_key("0x...")
@@ -31,14 +31,23 @@ class ContractHandler():
             )
     """
 
-    def __init__(self, w3: Web3, wallet: Wallet, project: str, contract_name: str, contract: Contract, builder: Optional[TransactionBuilder] = None,
+    def __init__(self, w3: Web3, wallet: Wallet, contract: Optional[Contract] = None, project: str = None,
+                 contract_name: str = None, contract_address: str = None, builder: Optional[TransactionBuilder] = None,
                  sender: Optional[TransactionSender] = None, abi_loader: ABILoader = None):
+        # 参数验证
+        if not (contract or (contract_address and project and contract_name)):
+            raise ValueError(
+                "必须提供合约实例或（合约地址+项目名+合约名称）组合"
+            )
+        if contract and (contract_address or project or contract_name):
+            raise ValueError("不能同时提供合约实例和合约地址/项目参数")
+
         self.w3 = w3
         self.wallet = wallet
         self.abi_loader = abi_loader or ABILoader()
 
         # 初始化合约实例
-        abi = self.abi_loader.load_abi(project=project, concept_name=contract_name)
+        abi = self.abi_loader.load_abi(project=project, contract_name=contract_name)
         self.contract = w3.eth.contract(address=contract_address, abi=abi)
 
         self.builder = builder or TransactionBuilder(w3)
@@ -74,7 +83,7 @@ class ContractHandler():
                     "tx_hash": receipt.transactionHash.hex()
                 }
             except Exception as e:
-                if attempts == retries - 1:
+                if attempt == retries - 1:
                     return {
                         "status": "failed",
                         "error": str(e)

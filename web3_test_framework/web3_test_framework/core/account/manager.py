@@ -90,7 +90,10 @@ if __name__ == "__main__":
     # p_name = "CCat"
     # env = "test"
     # mm = Manager(project_name=p_name, env=env)
-    # w = Wallet(address='0xfc9345E748fe3514Df440d36a798196137fAA150', private_key='bb1d75b906366b992fe6e1e18ee252640c624e7582544dfc15d6f5027900fe46', alias='accounts_1741312954197_0')
+    msg = "Welcome to PoPP!\n\nPoPP DAPP\n\nNote: This request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n0xa0c9990db6847e751536ead8a6347b90dfd68950\n\nNonce:\n9fbf14cf-0add-4c83-847b-164c48c3cb8f\n\nTimestamp:\n1741412572868"
+    w = Wallet(address='0xA0c9990dB6847e751536eAD8a6347b90dFd68950', private_key='1dcffdf711a32c80927b2c8ffb9e83569317093af619f904e5633b239eb6dda9', alias='accounts_1741312954197_0')
+    print(w.sign_message(msg))
+
     # mm._load_config_accounts()
     # mm._generate_temp_accounts(100)
     # mm._load_account_file(FileUtil.data_base/"CCat_temp"/"accounts_1741312954197.json")

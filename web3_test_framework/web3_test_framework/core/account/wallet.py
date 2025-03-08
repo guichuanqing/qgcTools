@@ -34,7 +34,7 @@ class Wallet:
         """基础交易签名"""
         signed_tx = Account.sign_transaction(tx_params, self.private_key)
         return {
-            'rawTransaction': signed_tx.rawTransaction.hex(),
+            'rawTransaction': signed_tx.raw_transaction.hex(),
             'hash': signed_tx.hash.hex(),
             'r': signed_tx.r,
             's': signed_tx.s,

@@ -1,6 +1,6 @@
 ##目录结构
 ```markdown
-pydapptest/                  # 项目根目录
+web3_test_framework/                  # 项目根目录
 ├── contracts/               # Solidity智能合约源文件
 │   ├── ERC20/               # 代币合约示例目录
 │   │   └── ERC20.sol        # 合约源码
@@ -40,17 +40,15 @@ pydapptest/                  # 项目根目录
 ├── tests/                   # 测试用例目录
 │   ├── blockchain/          # 合约测试用例
 │   │   └── test_erc20.py    
-│   ├── api/                 # API接口测试用例
+│   ├── ask/                 # Dapp项目名
 │   │   └── test_user_api.py
-│   └── integration/         # 混合测试用例
-│       └── test_marketplace.py
 │
 ├── conftest.py              # Pytest全局fixture
 ├── pyproject.toml           # 项目依赖配置
 └── README.md                # 项目文档
 ```
 
-###创建处理器自动加载ABI（名称为项目名+合约名.json）
+###创建处理器自动加载ABI（名称为项目名+合约名.json，约定默认abi存放路径）
 ```python
 from web3 import Web3
 from core.account import Wallet
@@ -158,4 +156,26 @@ tx_data = raw_transfer.build_transaction({
 transfer_events = handler.events("Transfer", from_block=12345)
 for event in transfer_events:
     print(f"Transfer: {event.args}")
+```
+
+###工具类转账（ERC20，与ERC721）
+```python
+# 使用示例
+utils = TransferUtils(w3)
+
+# ETH转账
+eth_result = utils.send_eth(
+    sender=alice_wallet,
+    to_address=bob_address,
+    amount_wei=Web3.to_wei(0.1, 'ether'),
+    gas_strategy="fast"
+)
+
+# NFT转账
+nft_result = utils.send_erc721(
+    sender=alice_wallet,
+    contract_address=nft_contract,
+    receiver=bob_address,
+    token_id=123
+)
 ```

@@ -6,12 +6,12 @@ CCat:
       prod:
         api: "https://api.nft-market.io/v1"
         graphql: "https://graphql.nft-market.io"
-      staging:
+      test:
         api: "https://staging-api.nft-market.io/v1"
         graphql: "https://staging-graphql.nft-market.io"
 
   chain_config:
-    default_network: "bsc_mainnet"
+    default_network: "Taiko Hekla"
     supported_networks:
       - "bsc_mainnet"
       - "polygon_mainnet"

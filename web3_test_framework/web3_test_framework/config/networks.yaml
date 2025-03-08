@@ -16,3 +16,11 @@ chains:
     gas_config:
       strategy: "fixed"
       gwei: 10
+
+  Taiko Hekla:
+    rpc: "https://rpc.hekla.taiko.xyz"
+    chain_id: 167009
+    explorer: "hekla.taikoscan.network"
+    gas_config:
+      strategy: "fixed"
+      gwei: 10

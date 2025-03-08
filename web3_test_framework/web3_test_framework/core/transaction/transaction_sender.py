@@ -15,7 +15,7 @@ class TransactionSender():
         self.w3 = w3
 
     def send_raw(self, signed_tx: dict) -> HexBytes:
-        """发送签名交易"""
+        """广播签名交易"""
         return self.w3.eth.send_raw_transaction(signed_tx["rawTransaction"])
 
     def wait_recepit(self, tx_hash: HexBytes, timeout=120) -> TxReceipt:
