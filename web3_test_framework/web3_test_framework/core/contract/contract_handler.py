@@ -25,10 +25,19 @@ class ContractHandler:
     def transact(self, func_name: str, *args, **tx_params) -> dict:
         """交易发送"""
         func = getattr(self.contract.functions, func_name)(*args)
-        return {
-            "tx_hash": func.transact(tx_params).hex(),
-            "nonce": tx_params.get("nonce")
-        }
+        # 必须包含from地址
+        if "from" not in tx_params:
+            raise ValueError("交易参数必须包含发送地址（from）")
+
+        try:
+            tx_hash = func.transact(tx_params)
+            receipt = self.contract.web3.eth.wait_for_transaction_receipt(tx_hash)
+            return {
+                "tx_hash": tx_hash.hex(),
+                "receipt": receipt
+            }
+        except TransactionNotFound as e:
+            raise RuntimeError(f"交易未确认: {str(e)}") from e
 
         # 自动构建交易
         # tx_data = self.builder.build(func=func, sender=self.wallet.address, value=value, gas_strategy=gas_strategy)

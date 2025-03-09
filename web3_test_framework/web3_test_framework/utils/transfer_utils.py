@@ -13,6 +13,7 @@ from ..core.account.wallet import Wallet
 from ..core.transaction.transaction_builder import TransactionBuilder
 from ..core.transaction.transaction_sender import TransactionSender
 from ..core.contract.contract_handler import ContractHandler
+from ..core.contract.contract_loader import ContractLoader
 
 
 class TransferUtils:
@@ -58,7 +59,7 @@ class TransferUtils:
             "receipt": receipt
         }
 
-    def send_rec721(self, sender: Wallet, contract_address: str, receiver: str, token_id: int,
+    def send_erc721(self, sender: Wallet, contract_address: str, receiver: str, token_id: int,
                     project: str = 'nft_project', gas_strategy: str = "medium") -> Dict[str, Union[HexStr, TxReceipt]]:
         """
         ERC721 NFT转账
@@ -69,9 +70,10 @@ class TransferUtils:
         :param project: 项目目录名称（用于ABI加载）
         :param gas_strategy: Gas策略选择
         """
+        contract_loader = ContractLoader(w3=self.w3)
+        contract = contract_loader.erc721(address=contract_address)
         # 初始化合约处理器
-        handler = ContractHandler(w3=self.w3, wallet=sender, project=project, contract_name="ERC721",
-                                  contract_address=contract_address)
+        handler = ContractHandler(contract)
         # 检查NFT所有权
         current_owner = handler.call("ownerOf", token_id)
         if current_owner.lower() != sender.address.lower():

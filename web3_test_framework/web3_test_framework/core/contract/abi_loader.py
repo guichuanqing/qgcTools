@@ -10,6 +10,7 @@ import requests
 from pathlib import Path
 from typing import Dict, Any, Optional, Union
 from eth_utils import is_address, to_checksum_address
+from ...utils.file_util import FileUtil
 
 
 class ABILoader:
@@ -23,7 +24,7 @@ class ABILoader:
     def __init__(
             self,
             base_path: Optional[Path] = None,
-            standard_libs_path: Path = Path("libs"),
+            standard_libs_path: Path = FileUtil.working_base / "libs",
             etherscan_api_key: Optional[str] = None
     ):
         """
@@ -156,7 +157,6 @@ class ABILoader:
 
     def _resolve_standard_version(self, contract_type: str, version: str) -> str:
         """解析标准合约版本"""
-        print("version:", version)
         if version == "latest":
             return self.standard_versions[contract_type][-1]
         if version not in self.standard_versions.get(contract_type, []):
@@ -165,10 +165,15 @@ class ABILoader:
 
     def _download_standard_abi(self, contract_type: str, version: str):
         """下载标准合约ABI"""
-        url = (
-            f"https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/"
-            f"v{version}/build/contracts/{contract_type.capitalize()}.json"
-        )
+        contract_type = contract_type.upper()
+        # 使用npm包路径规则
+        # url = (
+        #     f"https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/"
+        #     f"v{version}/contracts/token/ERC721/{contract_type}.sol"
+        # )
+
+        # 或使用构建产物路径（需确认版本存在）
+        url = f"https://unpkg.com/@openzeppelin/contracts@{version}/build/contracts/{contract_type}.json"
 
         response = requests.get(url)
         response.raise_for_status()

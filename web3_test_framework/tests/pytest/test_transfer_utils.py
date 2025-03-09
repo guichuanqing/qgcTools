@@ -32,7 +32,7 @@ class TestTransferUtils:
 
     def test_nft_transfer(self):
         # 执行ETH转账
-        result = self.utils.send_rec721(self.alice, "0xaCaBC6EA6A00e8b5F3D04D29d43E4F089b26a980", self.bob.address, 89)
+        result = self.utils.send_erc721(self.alice, "0xaCaBC6EA6A00e8b5F3D04D29d43E4F089b26a980", self.bob.address, 89)
         print(result)
         # 验证结果
         assert result['receipt'].status == 1
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     loader = ContractLoader(w3)
 
     contract = loader.from_address(
-        address="0x...",
+        address="0xaCaBC6EA6A00e8b5F3D04D29d43E4F089b26a980",
         abi_source="standard",
         source_params={
             "contract_type": "ERC721",
@@ -57,5 +57,5 @@ if __name__ == "__main__":
     t = TestTransferUtils(w3)
 
     # t.test_eth_transfer()
-    # t.test_nft_transfer()
+    t.test_nft_transfer()
     # wallet = Wallet.from_private_key("0x...")

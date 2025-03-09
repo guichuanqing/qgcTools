@@ -13,6 +13,16 @@ class ContractLoader:
         self.w3 = w3
         self.abi_loader = abi_loader or ABILoader()
 
+    def erc721(self, address: str, version="latest") -> Contract:
+        return self.from_address(
+            address,
+            abi_source="standard",
+            source_params={
+                "contract_type": "ERC721",
+                "version": version
+            }
+        )
+
     def from_address(
             self,
             address: str,
@@ -34,7 +44,7 @@ class ContractLoader:
                 version=source_params.get("version", "latest")
             )
         elif abi_source == "local":
-            abi = self.abi_loader.load_local_abi(source_type=abi_source,
+            abi = self.abi_loader.load_abi(source_type=abi_source,
                 project=source_params["project"],
                 contract_name=source_params["contract_name"]
             )
