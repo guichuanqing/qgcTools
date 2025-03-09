@@ -11,6 +11,8 @@ from web3 import Web3
 from web3_test_framework.config.loader import ConfigLoader
 from web3_test_framework.core.account.wallet import Wallet
 from web3_test_framework.utils.transfer_utils import TransferUtils
+from web3_test_framework.core.contract.contract_loader import ContractLoader
+from web3_test_framework.core.contract.contract_handler import ContractHandler
 
 config = ConfigLoader("CCat", "test")
 
@@ -40,7 +42,20 @@ if __name__ == "__main__":
     # 初始化
     network = config.load_network_config("Taiko Hekla")
     w3 = Web3(Web3.HTTPProvider(network["rpc"]))
+    loader = ContractLoader(w3)
+
+    contract = loader.from_address(
+        address="0x...",
+        abi_source="standard",
+        source_params={
+            "contract_type": "ERC721",
+            "version": "5.0.1"
+        }
+    )
+
+
     t = TestTransferUtils(w3)
+
     # t.test_eth_transfer()
-    t.test_nft_transfer()
+    # t.test_nft_transfer()
     # wallet = Wallet.from_private_key("0x...")

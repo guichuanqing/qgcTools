@@ -156,6 +156,7 @@ class ABILoader:
 
     def _resolve_standard_version(self, contract_type: str, version: str) -> str:
         """解析标准合约版本"""
+        print("version:", version)
         if version == "latest":
             return self.standard_versions[contract_type][-1]
         if version not in self.standard_versions.get(contract_type, []):
